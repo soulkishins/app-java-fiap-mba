@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: demo
+
+  # URL de acesso ao banco - H2
+  datasource:
+    url: jdbc:h2:mem:nudb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: sa
+  # Hibernate
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  # h2 configs
+  h2:
+    console:
+      # Console Web Habilitado
+      enabled: true
+      # URL para acessar o console web
+      path: /h2
