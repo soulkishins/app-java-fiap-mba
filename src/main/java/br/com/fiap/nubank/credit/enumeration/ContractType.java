@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ContractType {
-	ENCUMBRANCE(1),
+	ENGRAVE(1),
 	DISPOSAL(2);
 	
 	private final int value;

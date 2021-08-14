@@ -136,7 +136,7 @@ public class CreditController {
     })
 	@PostMapping("/contract/by-participant/{participant}/simulate")
 	public ResponseEntity<PreContractDto> simulateContract(@PathVariable Long participant, @RequestBody PreContractDto contract) {
-		return ResponseEntity.status(HttpStatus.OK).body(creditFacade.simulateContract(contract));
+		return ResponseEntity.status(HttpStatus.OK).body(creditFacade.simulateContract(participant, contract));
 	}
 
 	@ApiOperation(value = "Gerar novo contrato.", response = ContractDto.class)
@@ -147,8 +147,8 @@ public class CreditController {
         @ApiResponse( code=500, message = "Erro ao processar a requisição." ),
     })
 	@PostMapping("/contract/by-participant/{participant}/prepayment")
-	public ResponseEntity<ContractDto> prepaymentReceivable(@PathVariable Long participant, @RequestBody PreContractDto contract) {
-		return ResponseEntity.status(HttpStatus.OK).body(creditFacade.prepaymentReceivable(contract));
+	public ResponseEntity<ContractDto> prepaymentReceivable(@PathVariable Long participant, @RequestBody PaymentCalendarDto paymentCalendarToPrepayment) {
+		return ResponseEntity.status(HttpStatus.OK).body(creditFacade.prepaymentReceivable(participant, paymentCalendarToPrepayment));
 	}
 
 }

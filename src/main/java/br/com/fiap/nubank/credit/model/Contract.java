@@ -2,7 +2,7 @@ package br.com.fiap.nubank.credit.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -88,6 +88,6 @@ public class Contract {
 	private Date createdDate;
 	
 	@OneToMany(mappedBy = "contract", cascade = CascadeType.PERSIST)
-	private Set<Receivable> receivables;
+	private List<Receivable> receivables;
 
 }

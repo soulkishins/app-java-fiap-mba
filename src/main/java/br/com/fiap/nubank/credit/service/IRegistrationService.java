@@ -17,6 +17,6 @@ public interface IRegistrationService {
 
 	PreContractDto simulateContract(PreContractDto contract);
 
-	ContractDto effectuateContract(PreContractDto contract);
+	ContractDto effectuateContract(List<AccessRequest> accessRequests, PaymentCalendarDto paymentCalendarToPrepayment);
 
 }

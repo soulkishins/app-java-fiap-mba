@@ -165,22 +165,23 @@ public class CreditFacade {
 			.build();
 	}
 
-	public PreContractDto simulateContract(PreContractDto contract) {
+	public PreContractDto simulateContract(Long participant, PreContractDto contract) {
 		return registrationService.simulateContract(contract);
 	}
 
-	public ContractDto prepaymentReceivable(PreContractDto contract) {
+	public ContractDto prepaymentReceivable(Long participant, PaymentCalendarDto paymentCalendarToPrepayment) {
 
-		var realContract = registrationService.effectuateContract(contract);
+		var contract = registrationService.effectuateContract(accessRequestService.findByParticipant(participant), paymentCalendarToPrepayment);
 
-		var record = contractDtoToContract(realContract);
+		var record = contractDtoToContract(contract);
+		
+		record.setParticipant(participantService.findById(participant).get());
 
 		return contractToContractDto(contractService.save(record));
-
 	}
 
 	private Contract contractDtoToContract(ContractDto contract) {
-		return Contract
+		var c = Contract
 				.builder()
 				.type(contract.getType())
 				.protocol(contract.getProtocol())
@@ -192,9 +193,11 @@ public class CreditFacade {
 				.discountValue(contract.getDiscountValue())
 				.netValue(contract.getNetValue())
 				.tax(contract.getTax())
-				.receivables(contract.getReceivables().stream().map(this::receivableDtoToReceivable).collect(Collectors.toSet()))
+				.receivables(contract.getReceivables().stream().map(this::receivableDtoToReceivable).collect(Collectors.toList()))
 				.createdDate(new Date())
 				.build();
+		c.getReceivables().forEach(r -> r.setContract(c));
+		return c;
 	}
 	
 	private Receivable receivableDtoToReceivable(ReceivableDto receivable) {
